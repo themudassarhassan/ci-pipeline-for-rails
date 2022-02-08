@@ -1,0 +1,21 @@
+<%= form_with(model: todo, class: "mt-4 mx-auto max-w-3xl ") do |form| %>
+  <% if todo.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+
+      <ul>
+        <% todo.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <div class="mb-4 flex flex-col ">
+      <%= form.label :title %>
+      <%= form.text_field :title, class: "bg-gray-200 rounded px-2 py-2" %>
+    </div>
+    <%= form.submit class: "bg-indigo-800 text-white p-2 rounded" %>
+  </div>
+<% end %>
