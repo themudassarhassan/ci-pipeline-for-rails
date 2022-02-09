@@ -50,10 +50,10 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
           yarn install --force --non-interactive --pure-lockfile
-          
-      # Add or replace database setup steps here
-      - name: Set up database schema
-        run: bin/rails db:schema:load
-      # Add or replace test runners here
+      
       - name: Run tests
-        run: bin/rake
+        run: |
+          bin/rails javascript:build
+          bin/rails css:build
+          bin/rails db:schema:load
+          bin/rake
