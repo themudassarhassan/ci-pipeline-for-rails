@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - '*'
   push:
     branches:
-      - main
+      - master
       
 jobs:
   test:
@@ -57,3 +57,14 @@ jobs:
           bin/rails css:build
           bin/rails db:schema:load
           bin/rake
+  
+  deploy:
+    if: {{ github.event_name == 'push' && github.ref == 'refs/heads/master'}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "rails-todo-ci-cd" #Must be unique in Heroku
+          heroku_email: "mudassarhassan135@gmail.com"
